@@ -1,0 +1,27 @@
+version: '3.8'
+services:
+  backend-flask:
+    environment:
+      FRONTEND_URL: "https://3001-${GITPOD_WORKSPACE_ID}.${GITPOD_WORKSPACE_CLUSTER_HOST}"
+      BACKEND_URL: "https://5001-${GITPOD_WORKSPACE_ID}.${GITPOD_WORKSPACE_CLUSTER_HOST}"
+    build: ./backend-flask
+    ports:
+      - "5001:5001"
+    volumes:
+      - ./backend-flask:/backend-flask-data
+    networks:
+      - cruddur-network
+  frontend-react-js:
+    environment:
+      REACT_APP_BACKEND_URL: "https://5001-${GITPOD_WORKSPACE_ID}.${GITPOD_WORKSPACE_CLUSTER_HOST}"
+    build: ./frontend-react-js
+    ports:
+      - "3001:3001"
+    volumes:
+      - ./frontend-react-js:/frontend-react-js-data
+    networks:
+      - cruddur-network
+networks:
+  cruddur-network:
+    driver: bridge
+    name: cruddur-network
